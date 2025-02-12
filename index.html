@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="data:,">
+    <link href="extern.html" rel="import" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Game</title>
+    <script src="Webgazer/dist/webgazer.js"></script>
+    <style>
+        #calibration-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #game-container {
+            width: 50%; /* Adjust the width as needed */
+            display: none;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <!-- Calibration Screen
+    <div id="calibration-container">
+        <iframe 
+            src="Webgazer/www/calibration.html" 
+            id="calibration-iframe" 
+            width="100%" 
+            height="100%" 
+            style="border: none;">
+        </iframe>
+    </div> -->
+
+    <!-- Snake Game -->
+    <div id="game-container" style="display:none; margin-left: auto; margin-right: auto">
+        <canvas id="gameCanvas" width="800" height="600" style="border: 1px solid black"></canvas>
+    </div>
+
+    <script src="WebGazer/www/js/main.js"></script>
+    <script src="WebGazer/www/js/calibration.js"></script>
+    <script src="WebGazer/www/js/precision_calculation.js"></script>
+    <script src="WebGazer/www/js/precision_store_points.js"></script>
+
+    <script>
+        const iframe = document.getElementById('calibration-iframe');
+        const gameContainer = document.getElementById('game-container');
+        const calibrationContainer = document.getElementById('calibration-container');
+
+        iframe.onload = () => {
+            const calibrationDoc = iframe.contentDocument || iframe.contentWindow.document;
+
+            // Ensure calibration completion triggers the switch
+            const calibrationCompleteHandler = () => {
+                calibrationContainer.style.display = 'none';
+                gameContainer.style.display = 'block';
+
+                // Start the game
+                const script = document.createElement('script');
+                script.src = 'snakeGame.js';
+                document.body.appendChild(script);
+            };
+
+            // calibrationDoc.getElementById('closeBtn').addEventListener('click', calibrationCompleteHandler);
+            if (precision_measurement > 80) { calibrationCompleteHandler() }
+            
+            // const accuracyElement = document.getElementById("Accuracy");
+            // if (accuracyElement) {
+            //     const match = accuracyElement.innerHTML.match(/(\d+)%/);
+
+            //     if (match) {
+            //         const precision_measurement = parseInt(match[1], 10);
+            //         console.log("Precision Measurement:", precision_measurement);
+            //     }
+            // }
+        }
+    </script>
+</body>
+</html>
